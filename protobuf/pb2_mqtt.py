@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 import io
-import addressbook_pb2
+import person_pb2
 import time
 
 # The callback for when the client receives a CONNACK response from the server.
@@ -14,15 +14,11 @@ def on_connect(client, obj, flags, rc):
     client.unsubscribe("t/#")
 
 def publish_msg(client):
-    address_book = addressbook_pb2.AddressBook()
-    p = address_book.people.add()
+    p = person_pb2.Person()
     p.id = 1
     p.name = "Shawn"
     p.email = "liuxy@emqx.io"
-    phone_number = p.phones.add()
-    phone_number.number = "18212120987"
-    phone_number.type = addressbook_pb2.Person.MOBILE
-    message = address_book.SerializeToString()
+    message = p.SerializeToString()
     topic = "t/1"
     print("publish to topic: t/1, payload:", message)
     client.publish(topic, payload=message, qos=0, retain=False)
