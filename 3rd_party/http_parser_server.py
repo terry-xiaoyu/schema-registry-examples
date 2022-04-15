@@ -13,13 +13,13 @@ def parser():
   print("== received:", body)
   try:
     data = base64.b64decode(bytes(body['payload'], encoding='utf8'))
-    return parse(body['type'], body['schema_id'], body['parser_opts'], data)
+    return parse(body['type'], body['schema_name'], body['parser_opts'], data)
   except Exception as err:
     print("== parse failed for:", str(err))
     return json.dumps({'code': 2, 'result': "parse failed:"+ str(err)})
 
 
-def parse(dtype, schema_id, parser_opts, data):
+def parse(dtype, schema_name, parser_opts, data):
   result = b'decode failed'
   code = 2
   if parser_opts == 'xor':
